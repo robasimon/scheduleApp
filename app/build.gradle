@@ -6,10 +6,11 @@ android {
 
     defaultConfig {
         applicationId "com.example.scheduleapp"
-        minSdkVersion 16
+        minSdkVersion 17
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
+        multiDexEnabled true
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -22,6 +23,10 @@ android {
     }
     apply plugin: 'com.android.application'
     apply plugin: 'com.google.gms.google-services'
+    compileOptions {
+        sourceCompatibility = 1.8
+        targetCompatibility = 1.8
+    }
 }
 
 dependencies {
@@ -40,5 +45,9 @@ dependencies {
     implementation 'com.google.android.material:material:1.1.0'
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
     implementation "androidx.lifecycle:lifecycle-viewmodel:2.2.0"
-
+    implementation 'com.google.firebase:firebase-storage:19.1.1'
+    implementation 'com.google.firebase:firebase-firestore:21.4.2'
+    implementation 'com.android.support:multidex:1.0.3'
+    implementation 'com.github.applikeysolutions:cosmocalendar:1.0.4'
+    implementation 'com.google.firebase:firebase-database:19.2.1'
 }

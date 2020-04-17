@@ -7,7 +7,6 @@ public class MainActivityViewModel extends ViewModel {
 
         private boolean mIsSigningIn;
 
-
         public MainActivityViewModel() {
             mIsSigningIn = false;
         }

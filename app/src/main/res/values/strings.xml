@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">scheduleApp</string>
+    <string-array name="employees">
+        <item>Select Employee</item>
+
+
+    </string-array>
 </resources>

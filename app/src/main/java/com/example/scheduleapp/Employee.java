@@ -13,9 +13,45 @@ public class Employee {
     private static int numEmployees = 0;
     // Map of all employee ids->names. Used to help prevent id-collisions
     // while providing quick name lookup when id is known.
-    private static Map<Long,String> idToName = new HashMap<Long,String>();
+    private static Map<String,String> idToName = new HashMap<>();
     private String name;
-    private long id;
+    private String email;
+    private String phoneNum;
+    private String id;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPhoneNum() {
+        return phoneNum;
+    }
+
+    public void setPhoneNum(String phoneNum) {
+        this.phoneNum = phoneNum;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+
     private int firstYear = UNINITIALIZED;
     // ArrayList of Lists of shifts used since each day likely only has a
     // couple of shifts so O(n) complexity of list access is not a problem
@@ -38,7 +74,7 @@ public class Employee {
 
     // Constructors
     public Employee() {++numEmployees; initWeeks();}
-    public Employee(String name, long id) {
+    public Employee(String name, String id) {
         ++numEmployees;
         initWeeks();
         if (idToName.containsKey(id))

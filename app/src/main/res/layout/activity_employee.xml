@@ -1,10 +1,211 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#F4F4F4"
+    tools:context=".MainActivity">
+
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:background="@color/colorPrimaryDark"
+        android:layout_height="198dp">
+
+        <TextView
+            android:id="@+id/titlepage"
+            android:layout_marginTop="20dp"
+            android:textSize="26sp"
+            android:textColor="#FFF"
+            android:text="Add New Employee"
+            android:textAlignment="center"
+            android:layout_marginBottom="18dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <View
+            android:layout_marginTop="20dp"
+            android:layout_width="match_parent"
+            android:background="#131E69"
+            android:layout_height="1dp" />
+
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="-60dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/bgitemdoes"
+        android:orientation="vertical"
+        android:paddingBottom="22dp"
+        android:paddingTop="22dp">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+        <TextView
+                android:id="@+id/addtitle"
+                android:textSize="18sp"
+                android:textColor="@color/colorPrimaryDark"
+                android:text="First Name"
+            android:layout_marginHorizontal="16dp"
+                android:layout_marginBottom="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <EditText
+                android:id="@+id/employee_fname"
+                android:inputType="text"
+                android:background="@drawable/bginputtask"
+                android:paddingLeft="12dp"
+                android:textColorHint="#B5B5B5"
+                android:layout_marginHorizontal="10dp"
+                android:textColor="@color/colorPrimaryDark"
+                android:hint="Enter First Name"
+                android:layout_width="match_parent"
+                android:layout_height="55dp" />
+
+            <TextView
+                android:id="@+id/adddesc"
+                android:textSize="18sp"
+                android:textColor="@color/colorPrimaryDark"
+                android:text="Last Name"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginHorizontal="16dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <EditText
+                android:id="@+id/employee_lname"
+                android:inputType="text"
+                android:background="@drawable/bginputtask"
+                android:paddingLeft="12dp"
+                android:textColorHint="#B5B5B5"
+                android:maxLength="25"
+                android:textColor="@color/colorPrimaryDark"
+                android:hint="Enter Last Name"
+                android:layout_width="match_parent"
+                android:layout_marginHorizontal="10dp"
+                android:layout_height="55dp" />
+
+
+            <TextView
+
+                android:textSize="18sp"
+                android:textColor="@color/colorPrimaryDark"
+                android:layout_marginTop="10dp"
+                android:text="ID"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginBottom="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <EditText
+                android:id="@+id/employee_id"
+                android:inputType="text"
+                android:background="@drawable/bginputtask"
+                android:paddingLeft="12dp"
+                android:textColorHint="#B5B5B5"
+                android:textColor="@color/colorPrimaryDark"
+                android:layout_marginHorizontal="10dp"
+                android:hint="Enter ID"
+                android:layout_width="match_parent"
+                android:layout_height="55dp" />
+
+
+            <TextView
+                android:textSize="18sp"
+                android:textColor="@color/colorPrimaryDark"
+                android:text="Email"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginHorizontal="16dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <EditText
+                android:id="@+id/employee_email"
+                android:inputType="textEmailAddress"
+                android:background="@drawable/bginputtask"
+                android:paddingLeft="12dp"
+                android:textColorHint="#B5B5B5"
+                android:textColor="@color/colorPrimaryDark"
+                android:layout_marginHorizontal="10dp"
+                android:hint="Enter Email"
+                android:layout_width="match_parent"
+                android:layout_height="55dp" />
+
+            <TextView
+                android:textSize="18sp"
+                android:textColor="@color/colorPrimaryDark"
+                android:text="Phone Number"
+                android:layout_marginTop="10dp"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginBottom="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <EditText
+                android:id="@+id/employee_phone"
+                android:inputType="phone"
+                android:background="@drawable/bginputtask"
+                android:paddingLeft="12dp"
+                android:textColorHint="#B5B5B5"
+                android:textColor="@color/colorPrimaryDark"
+                android:hint="Enter Number"
+                android:layout_marginHorizontal="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="55dp" />
+
+        <Button
+            android:id="@+id/save_employee"
+            android:layout_marginRight="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="20dp"
+            android:text="Create"
+            android:textColor="#FFF"
+            android:textAllCaps="false"
+            android:background="@drawable/bgbtncreate"
+            android:textSize="22sp"
+            android:layout_width="match_parent"
+            android:layout_height="55dp" />
+
+        <Button
+            android:id="@+id/btnCancel"
+            android:layout_marginRight="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="14dp"
+            android:text="Cancel"
+            android:textColor="#AFAFAF"
+            android:textAllCaps="false"
+            android:background="@drawable/bgbtncancel"
+            android:textSize="22sp"
+            android:layout_width="match_parent"
+            android:layout_height="55dp" />
+        </LinearLayout>
+    </ScrollView>
+
+
+
+</LinearLayout>
+<!--<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+
+        >
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -13,10 +214,11 @@
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
             android:gravity="center_horizontal"
-            android:orientation="vertical">
-
+            android:orientation="vertical"
+            >
 
             <androidx.cardview.widget.CardView
+                android:layout_marginTop="16dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal|center_vertical"
@@ -27,32 +229,40 @@
                     android:layout_height="match_parent"
                     android:layout_margin="16dp"
                     android:orientation="vertical">
-
-                    <LinearLayout
+                    <TextView
+                        android:id="@+id/textView4"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginBottom="16dp"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:id="@+id/textView4"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="Enter Employee Details"
-                            android:textAlignment="center"
-                            android:gravity="center_horizontal"
-                            android:textSize="20sp"/>
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Enter Employee Details"
+                        android:textAlignment="center"
+                        android:gravity="center_horizontal"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        />
 
 
-                    </LinearLayout>
+                </LinearLayout>
 
-                   <EditText
-                       android:id="@+id/employee_fname"
-                       android:layout_width="match_parent"
-                       android:layout_height="wrap_content"
-                       android:hint="First Name..."/>
+            </androidx.cardview.widget.CardView>
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal|center_vertical"
+                android:layout_marginTop="8dp"
+                >
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="16dp"
+                    android:orientation="vertical">
+
+                    <EditText
+                        android:id="@+id/employee_fname"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="First Name..."/>
 
                 </LinearLayout>
 
@@ -98,6 +308,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="Employee ID.."
+                        android:inputType="number"
                         />
 
                 </LinearLayout>
@@ -144,8 +355,6 @@
                     android:id="@+id/employee_phone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:ems="10"
                     android:inputType="phone"
                     android:hint="Employee Phone Number.."/>
 
@@ -153,7 +362,7 @@
             </LinearLayout>
             </androidx.cardview.widget.CardView>
             <Button
-                android:id="@+id/post_listing"
+                android:id="@+id/save_employee"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:onClick="onClick"
@@ -163,4 +372,4 @@
         </LinearLayout>
 
     </FrameLayout>
-</LinearLayout>
+</LinearLayout>-->
