@@ -21,23 +21,32 @@
         android:id="@+id/employee_button"
         android:layout_width="150dp"
         android:layout_height="80dp"
-        android:layout_centerInParent="true"
-        android:text="Add Employee" />
-
-    <Button
-        android:id="@+id/calendar_button"
-        android:layout_width="150dp"
-        android:layout_height="80dp"
-        android:layout_below="@+id/employee_button"
         android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_marginStart="131dp"
         android:layout_marginLeft="131dp"
-        android:layout_marginTop="27dp"
+        android:layout_marginTop="299dp"
         android:layout_marginEnd="130dp"
         android:layout_marginRight="130dp"
+        android:text="Add Employee" />
+
+    <Button
+        android:id="@+id/calendar_button"
+        android:layout_width="148dp"
+        android:layout_height="85dp"
+        android:layout_below="@+id/employee_button"
+        android:layout_alignStart="@+id/employee_button"
+        android:layout_alignLeft="@+id/employee_button"
+        android:layout_alignEnd="@+id/employee_button"
+        android:layout_alignRight="@+id/employee_button"
+        android:layout_marginStart="2dp"
+        android:layout_marginLeft="2dp"
+        android:layout_marginTop="46dp"
+        android:layout_marginEnd="0dp"
+        android:layout_marginRight="0dp"
         android:text="View Calendar" />
 
 </RelativeLayout>
