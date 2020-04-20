@@ -81,6 +81,7 @@ public class ShiftAdapter extends RecyclerView.Adapter<ShiftAdapter.MyViewHolder
         return myDoes.size();
     }
 
+
     class MyViewHolder extends RecyclerView.ViewHolder {
 
         TextView employeeName, dateSelect, startTime, keydoes;

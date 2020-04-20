@@ -8,7 +8,11 @@
         android:title="Add Employee"
         />
     <item
+        android:id="@+id/menu_view_employee"
+        android:title="View Employees"/>
+    <item
         android:id="@+id/menu_view_calendar"
         android:title="View Calendar"
         />
+
 </menu>

@@ -9,16 +9,18 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Employee {
-    public final static int WEEKS_IN_YR = 52, UNINITIALIZED = -1;
-    private static int numEmployees = 0;
+    //public final static int WEEKS_IN_YR = 52, UNINITIALIZED = -1;
+    //private static int numEmployees = 0;
     // Map of all employee ids->names. Used to help prevent id-collisions
     // while providing quick name lookup when id is known.
-    private static Map<String,String> idToName = new HashMap<>();
+    //private static Map<String,String> idToName = new HashMap<>();
     private String name;
     private String email;
     private String phoneNum;
     private String id;
+    public Employee(){
 
+    }
     public String getName() {
         return name;
     }
@@ -51,7 +53,7 @@ public class Employee {
         this.id = id;
     }
 
-
+/*
     private int firstYear = UNINITIALIZED;
     // ArrayList of Lists of shifts used since each day likely only has a
     // couple of shifts so O(n) complexity of list access is not a problem
@@ -99,5 +101,5 @@ public class Employee {
             // Note s.printShifts() here refers to WeekShifts.printShifts(),
             // not a recursive call to Employee.printShifts()
             s.printShifts();
-    }
+    }*/
 }

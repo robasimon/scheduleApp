@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Color;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -60,7 +61,7 @@ class EventAdapter extends BaseAdapter {
         month.set(GregorianCalendar.DAY_OF_MONTH, 1);
 
         this.items = new ArrayList<String>();
-        df = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
+        df = new SimpleDateFormat("MM-dd-yyyy", Locale.US);
         curentDateString = df.format(selectedDate.getTime());
         refreshDays();
 
@@ -94,7 +95,8 @@ class EventAdapter extends BaseAdapter {
         String[] separatedTime = day_string.get(position).split("-");
 
 
-        gridvalue = separatedTime[2].replaceFirst("^0*", "");
+        gridvalue = separatedTime[1].replaceFirst("^0*", "");
+        Log.e("test", gridvalue);
         if ((Integer.parseInt(gridvalue) > 1) && (position < firstDay)) {
             dayView.setTextColor(Color.parseColor("#A9A9A9"));
             dayView.setClickable(false);
@@ -213,8 +215,8 @@ class EventAdapter extends BaseAdapter {
             if (HomeCollection.date_collection_arr.get(j).date.equals(date)){
                 HashMap<String, String> maplist = new HashMap<String, String>();
                 maplist.put("hnames",HomeCollection.date_collection_arr.get(j).name);
-                maplist.put("hsubject",HomeCollection.date_collection_arr.get(j).subject);
-                maplist.put("descript",HomeCollection.date_collection_arr.get(j).description);
+                maplist.put("shift",HomeCollection.date_collection_arr.get(j).getStartTime() + " - " + HomeCollection.date_collection_arr.get(j).getEndTime() );
+                maplist.put("totalhours",HomeCollection.date_collection_arr.get(j).getTotalHours());
                 JSONObject json1 = new JSONObject(maplist);
                 jbarrays.put(json1);
             }
@@ -248,8 +250,8 @@ class EventAdapter extends BaseAdapter {
                 Dialogpojo pojo = new Dialogpojo();
 
                 pojo.setTitles(jsonObject.optString("hnames"));
-                pojo.setSubjects(jsonObject.optString("hsubject"));
-                pojo.setDescripts(jsonObject.optString("descript"));
+                pojo.setSubjects(jsonObject.optString("shift"));
+                pojo.setDescripts(jsonObject.optString("totalhours"));
 
                 alCustom.add(pojo);
 

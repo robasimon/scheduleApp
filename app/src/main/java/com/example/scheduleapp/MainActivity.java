@@ -3,6 +3,7 @@ package com.example.scheduleapp;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -18,15 +19,22 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.firebase.ui.auth.AuthUI;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -40,18 +48,19 @@ public class MainActivity extends AppCompatActivity implements
         View.OnClickListener{
 
     private static final int RC_SIGN_IN = 99;
-    private Button newEmployee;
-    private Button viewCalendar;
-    private Button signOut;
+
     private MainActivityViewModel mViewModel;
     TextView titlepage, subtitlepage, endpage;
     Button btnAddNew;
-
-    DatabaseReference reference;
+    public String uid;
+    //DatabaseReference reference;
+    CollectionReference reference;
     RecyclerView ourdoes;
-    ArrayList<HomeCollection> list;
-    ShiftAdapter doesAdapter;
+    RecyclerView ourdoes2;
+    ArrayList<HomeCollection> list1, list2;
+    ShiftAdapter doesAdapter, doesAdapter2;
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -86,49 +95,160 @@ public class MainActivity extends AppCompatActivity implements
 
         // working with data
         ourdoes = findViewById(R.id.ourdoes);
+        ourdoes2 = findViewById(R.id.ourdoes2);
+
         ourdoes.setLayoutManager(new LinearLayoutManager(this));
-        list = new ArrayList<HomeCollection>();
+        ourdoes2.setLayoutManager(new LinearLayoutManager(this));
+        list1 = new ArrayList<HomeCollection>();
+        list2 = new ArrayList<HomeCollection>();
 
         // get data from firebase
         Calendar calendar = Calendar.getInstance();
         SimpleDateFormat dateFormat = new SimpleDateFormat("MM-dd-yyyy");
         String sortedDate = dateFormat.format(new Date());
         String date = dateFormat.format(calendar.getTime());
-        reference = FirebaseDatabase.getInstance().getReference().child("shifts").child(date);
-        reference.addValueEventListener(new ValueEventListener() {
-        //reference.orderByChild("startTime").startAt(sortedDate).addValueEventListener(new ValueEventListener() {
-            @RequiresApi(api = Build.VERSION_CODES.O)
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                // set code to retrieve data and replace layout
-                for(DataSnapshot dataSnapshot1: dataSnapshot.getChildren())
-                {
-                    HomeCollection p = dataSnapshot1.getValue(HomeCollection.class);
-                    list.add(p);
+        if(FirebaseAuth.getInstance().getCurrentUser() != null) {
+            uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+            //reference = FirebaseDatabase.getInstance().getReference().child("shifts").child(uid);
+            reference = FirebaseFirestore.getInstance().collection("users").document(FirebaseAuth.getInstance().getCurrentUser().getEmail())
+                    .collection("shifts");
+            //reference.orderByChild("date").equalTo(date).addValueEventListener(new ValueEventListener() {
+            reference.whereEqualTo("date", date).get().addOnCompleteListener( // .orderBy("startTime").startAt(sortedDate)
+                    new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            if(task.isSuccessful()){
+                                for(QueryDocumentSnapshot document : task.getResult()){
+                                    HomeCollection p = document.toObject(HomeCollection.class);
+                                    list1.add(p);
+                                }
+                                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("hh:mm a");
+                                Collections.sort(list1 , new Comparator<HomeCollection>() {
+                                    @Override
+                                    public int compare(HomeCollection o1 , HomeCollection o2) {
+                                        try {
+                                            return new SimpleDateFormat("hh:mm a").parse(o1.getStartTime()).compareTo(
+                                                    new SimpleDateFormat("hh:mm a").parse(o2.getStartTime()));
+                                        } catch (ParseException e) {
+                                            return 0;
+                                        }
+                                    }
+                                });
+                                doesAdapter = new ShiftAdapter(MainActivity.this , list1);
+                                ourdoes.setAdapter(doesAdapter);
+                                doesAdapter.notifyDataSetChanged();
+                            }
+                        }
+                    });
+/*
+                //reference.orderByChild("startTime").startAt(sortedDate).addValueEventListener(new ValueEventListener() {
+                @RequiresApi(api = Build.VERSION_CODES.O)
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    // set code to retrieve data and replace layout
+                    for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
+                        HomeCollection p = dataSnapshot1.getValue(HomeCollection.class);
+                        list1.add(p);
+                    }
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("hh:mm a");
+                    Collections.sort(list1 , new Comparator<HomeCollection>() {
+                        @Override
+                        public int compare(HomeCollection o1 , HomeCollection o2) {
+                            try {
+                                return new SimpleDateFormat("hh:mm a").parse(o1.getStartTime()).compareTo(
+                                        new SimpleDateFormat("hh:mm a").parse(o2.getStartTime()));
+                            } catch (ParseException e) {
+                                return 0;
+                            }
+                        }
+                    });
+                    doesAdapter = new ShiftAdapter(MainActivity.this , list1);
+                    ourdoes.setAdapter(doesAdapter);
+                    doesAdapter.notifyDataSetChanged();
                 }
-                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("hh:mm a");
-                Collections.sort(list , new Comparator<HomeCollection>() {
-                                     @Override
-                                     public int compare(HomeCollection o1 , HomeCollection o2) {
-                                         try {
-                                             return new SimpleDateFormat("hh:mm a").parse(o1.getStartTime()).compareTo(new SimpleDateFormat("hh:mm a").parse(o2.getStartTime()));
-                                         } catch (ParseException e) {
-                                             return 0;
-                                         }
-                                     }
-                                 });
-                                 doesAdapter = new ShiftAdapter(MainActivity.this , list);
-                ourdoes.setAdapter(doesAdapter);
-                doesAdapter.notifyDataSetChanged();
-            }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
 
-            }
+                }
 
-        });
+            });*/
+            Calendar calendar2 = Calendar.getInstance();
+            Date c = calendar2.getTime();
+            String currentDate = dateFormat.format(c);
+            calendar2.add(Calendar.DAY_OF_YEAR , 1);
+            c = calendar2.getTime();
 
+            String date2 = dateFormat.format(c);
+            reference = FirebaseFirestore.getInstance().collection("users").document(FirebaseAuth.getInstance().getCurrentUser().getEmail())
+                    .collection("shifts");
+            //reference.orderByChild("date").equalTo(date).addValueEventListener(new ValueEventListener() {
+            reference.whereEqualTo("date", date2).get().addOnCompleteListener( //.orderBy("startTime").startAt(sortedDate)
+                    new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            if(task.isSuccessful()){
+                                for(QueryDocumentSnapshot document : task.getResult()){
+                                    HomeCollection p = document.toObject(HomeCollection.class);
+                                    list2.add(p);
+                                }
+                                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("hh:mm a");
+                                Collections.sort(list2 , new Comparator<HomeCollection>() {
+                                    @Override
+                                    public int compare(HomeCollection o1 , HomeCollection o2) {
+                                        try {
+                                            return new SimpleDateFormat("hh:mm a").parse(o1.getStartTime()).compareTo(
+                                                    new SimpleDateFormat("hh:mm a").parse(o2.getStartTime()));
+                                        } catch (ParseException e) {
+                                            return 0;
+                                        }
+                                    }
+                                });
+                                doesAdapter2 = new ShiftAdapter(MainActivity.this , list2);
+                                ourdoes2.setAdapter(doesAdapter2);
+                                doesAdapter2.notifyDataSetChanged();
+                            }
+                        }
+                    });
+            //reference = FirebaseDatabase.getInstance().getReference().child("shifts").child(uid);
+           // reference.orderByChild("date").equalTo(date2).addValueEventListener(new ValueEventListener() {
+                //reference.orderByChild("startTime").startAt(sortedDate).addValueEventListener(new ValueEventListener() {
+                /*
+                @RequiresApi(api = Build.VERSION_CODES.O)
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    // set code to retrieve data and replace layout
+                    for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
+                        HomeCollection p = dataSnapshot1.getValue(HomeCollection.class);
+                        list2.add(p);
+                    }
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("hh:mm a");
+                    Collections.sort(list2 , new Comparator<HomeCollection>() {
+                        @Override
+                        public int compare(HomeCollection o1 , HomeCollection o2) {
+                            try {
+                                return new SimpleDateFormat("hh:mm a").parse(o1.getStartTime()).compareTo(
+                                        new SimpleDateFormat("hh:mm a").parse(o2.getStartTime()));
+                            } catch (ParseException e) {
+                                return 0;
+                            }
+                        }
+                    });
+                    doesAdapter2 = new ShiftAdapter(MainActivity.this , list2);
+                    ourdoes2.setAdapter(doesAdapter2);
+                    doesAdapter2.notifyDataSetChanged();
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+
+            });*/
+        }
+        else{
+            startSignIn();
+        }
     }
 
     @Override
@@ -139,6 +259,7 @@ public class MainActivity extends AppCompatActivity implements
             startSignIn();
             return;
         }
+
 
     }
     @Override
@@ -181,6 +302,10 @@ public class MainActivity extends AppCompatActivity implements
             case R.id.menu_view_calendar:
                 Intent intent2 = new Intent(MainActivity.this, CalendarTest.class);
                 startActivity(intent2);
+                break;
+            case R.id.menu_view_employee:
+                Intent intent3 = new Intent(MainActivity.this, ViewEmployees.class);
+                startActivity(intent3);
                 break;
             case R.id.menu_sign_out:
                 AuthUI.getInstance().signOut(this);

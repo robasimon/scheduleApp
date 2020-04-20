@@ -51,10 +51,10 @@ class DialogAdapter extends BaseAdapter {
         TextView tvDescription=(TextView)listViewItem.findViewById(R.id.tv_class);
 
 
-        tvTitle.setText("Title : "+alCustom.get(position).getTitles());
-        tvSubject.setText("Subject : "+alCustom.get(position).getSubjects());
+        tvTitle.setText("Name : "+alCustom.get(position).getTitles());
+        tvSubject.setText("Shift : "+alCustom.get(position).getSubjects());
         tvDuedate.setText("Due Date : "+alCustom.get(position).getDuedates());
-        tvDescription.setText("Description : "+alCustom.get(position).getDescripts());
+        tvDescription.setText("Total Time : "+alCustom.get(position).getDescripts());
 
         return  listViewItem;
     }

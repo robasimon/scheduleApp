@@ -6,22 +6,37 @@ import java.util.Date;
 
 class HomeCollection {
     public String date="";
-    public String timestamp;
+    //public String timestamp;
     public String name="";
-    public String subject="";
-
-
-    public String getTimestamp() {
-        return timestamp;
-    }
-
-    public void setTimestamp(String timestamp) {
-        this.timestamp = timestamp;
-    }
-
-    public String description="";
+    //public String subject="";
+    public String totalHours;
+    //public String description="";
+    public String shift;
     public String startTime;
     public String endTime;
+
+    public String getShift() {
+        return shift;
+    }
+
+    public void setShift(String shift) {
+        this.shift = shift;
+    }
+
+    public String getTotalHours() {
+        return totalHours;
+    }
+
+    public void setTotalHours(String totalHours) {
+        this.totalHours = totalHours;
+    }
+    //public String getTimestamp() {
+        //return timestamp;
+    //}
+
+    //public void setTimestamp(String timestamp) {
+        //this.timestamp = timestamp;
+   // }
 
     public String getDate() {
         return date;
@@ -39,7 +54,7 @@ class HomeCollection {
         this.name = name;
     }
 
-    public String getSubject() {
+   /* public String getSubject() {
         return subject;
     }
 
@@ -53,7 +68,7 @@ class HomeCollection {
 
     public void setDescription(String description) {
         this.description = description;
-    }
+    }*/
 
     public String getStartTime() {
         return startTime;
@@ -75,12 +90,13 @@ class HomeCollection {
     public HomeCollection(){
         //empty constructor
     }
-    public HomeCollection(String date, String name, String subject, String description){
+    public HomeCollection(String date, String name, String startTime, String endTime, String totalHours){
 
         this.date=date;
         this.name=name;
-        this.subject=subject;
-        this.description= description;
+        this.startTime=startTime;
+        this.endTime=endTime;
+        this.totalHours=totalHours;
 
     }
     public static String getTimeDate(long timestamp){
