@@ -1,7 +1,7 @@
 # SchedulingApplication
 Android Application designed to allow users to compose work schedules for their employees.
 
-![](https://raw.githubusercontent.com/robasimon/scheduleApp/master/AppIcon.png)
+![](https://raw.githubusercontent.com/robasimon/scheduleApp/master/Screenshots/AppIcon.png)
 
 # Installation
 Download zip archive or clone repository, open directory for repo in Android Studio, then run Build->Make Project->Run 'app'.
