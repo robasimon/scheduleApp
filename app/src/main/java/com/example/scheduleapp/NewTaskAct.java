@@ -1,8 +1,10 @@
 package com.example.scheduleapp;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Build;
@@ -41,7 +43,10 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.Duration;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.Period;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -70,6 +75,7 @@ public class NewTaskAct extends AppCompatActivity implements DatePickerDialog.On
     Calendar calendar;
     TimePickerDialog timepickerdialog;
     private int CalendarHour, CalendarMinute;
+    public static String defaultStr = "Select Employee";
     Spinner spinner;
     String format;
 
@@ -275,10 +281,52 @@ public class NewTaskAct extends AppCompatActivity implements DatePickerDialog.On
                 LocalTime end2 = LocalTime.parse(e , timeFormatter);
 
                 Duration diff = Duration.between(start2 , end2);
+                if (diff.isNegative() || diff.isZero()) {
+                    AlertDialog alertDialog = new AlertDialog.Builder(NewTaskAct.this).create();
+                    alertDialog.setTitle("Error creating new shift");
+                    alertDialog.setMessage("End time must be after start time");
+                    alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                }
+                            });
+                    alertDialog.show();
+                    return;
+                }
+                LocalDate now = LocalDate.now(), setDate = LocalDate.parse(date, DateTimeFormatter.ofPattern("MM-dd-yyyy"));
+                Period dateDiff = Period.between(now, setDate);
+
+                if (dateDiff.isNegative()) {
+                    AlertDialog alertDialog = new AlertDialog.Builder(NewTaskAct.this).create();
+                    alertDialog.setTitle("Error creating new shift");
+                    alertDialog.setMessage("Date of shift must be either current day or later date.");
+                    alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                }
+                            });
+                    alertDialog.show();
+                    return;
+                }
 
                 long hours = diff.toHours();
                 long minutes = diff.minusHours(hours).toMinutes();
                 String totalTimeString = String.format("%02d hrs : %02d min" , hours , minutes);
+                if (spinner.getSelectedItem().toString().equals(defaultStr)) {
+                    AlertDialog alertDialog = new AlertDialog.Builder(NewTaskAct.this).create();
+                    alertDialog.setTitle("Error creating new shift");
+                    alertDialog.setMessage("Please select an employee to create a shift for.");
+                    alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                }
+                            });
+                    alertDialog.show();
+                    return;
+                }
                 HomeCollection shift = new HomeCollection();
                 //shift.setTimestamp(ServerValue.TIMESTAMP.toString());
                 shift.setDate(date);

@@ -58,7 +58,7 @@ public class Shift {
         sameDay = areSameDay(s, e);
         sameWeek = areSameWeek(s, e);
         if (!sameDay)
-            System.out.println("Differnt days!");
+            System.out.println("Different days!");
         if (!sameWeek)
             System.out.println("Different weeks!");
     }

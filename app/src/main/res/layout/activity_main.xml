@@ -82,14 +82,15 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             >
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginHorizontal="16dp"
                 android:text="Today's Shifts"
-                android:textSize="24sp"
-                android:textColor="#FF47EC"
-                android:textAlignment="center"></TextView>
+                android:textAlignment="center"
+                android:textColor="#FFFFFF"
+                android:textSize="24sp"></TextView>
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 <!--<androidx.cardview.widget.CardView
@@ -145,14 +146,15 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             >
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginHorizontal="16dp"
                 android:text="Tomorrow"
-                android:textSize="24sp"
-                android:textColor="#FF47EC"
-                android:textAlignment="center"></TextView>
+                android:textAlignment="center"
+                android:textColor="#FFFFFF"
+                android:textSize="24sp"></TextView>
         </LinearLayout>
     </androidx.cardview.widget.CardView>
     <androidx.recyclerview.widget.RecyclerView

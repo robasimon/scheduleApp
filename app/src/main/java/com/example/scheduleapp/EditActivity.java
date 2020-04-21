@@ -1,5 +1,7 @@
 package com.example.scheduleapp;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -112,23 +114,55 @@ public class EditActivity extends AppCompatActivity {
         update.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(newFName.getText().toString().trim().length() > 0)
-                {
+                StringBuilder fieldsNotUpdated = new StringBuilder();
+                if(AddNewEmployee.nameIsValid(newFName.getText().toString())) {//newFName.getText().toString().trim().length() > 0)
                     fname= newFName.getText().toString();
                 }
-                if(newLName.getText().toString().trim().length() > 0)
-                {
+                else if (newFName.getText().toString().length() > 0) {
+                    fieldsNotUpdated.append(" first name must only contain letters\n");
+                }
+                if(AddNewEmployee.nameIsValid(newLName.getText().toString())) {//newLName.getText().toString().trim().length() > 0)
                     lname = newLName.getText().toString();
                 }
-                if(newId.getText().toString().trim().length() > 0){
-                    idNum = newId.getText().toString();
+                else if (newLName.getText().toString().length() > 0) {
+                    fieldsNotUpdated.append(" last name must only contain letters\n");
                 }
-                if(newEmail.getText().toString().trim().length() > 0){
+                // Redundant/no change id check added to condition to allow user to enter the original id in for update
+                // value without receiving an error.
+                if(AddNewEmployee.idIsValid(newId.getText().toString())
+                   && (idNum != newId.getText().toString() && AddNewEmployee.idIsUnique(newId.getText().toString()))) { //newId.getText().toString().trim().length() > 0){
+                    idNum = newId.getText().toString();
+                    MainActivity.ids.remove(idNum);
+                    MainActivity.ids.add(newId.getText().toString());
+                }
+                else if (newId.getText().toString().length() > 0) {
+                    fieldsNotUpdated.append(" id" + (!AddNewEmployee.idIsValid(newId.getText().toString()) ?
+                                                    " must contain only numbers\n" : " already exists\n"));
+                }
+                if(AddNewEmployee.isValidEmail(newEmail.getText().toString())) {//newEmail.getText().toString().trim().length() > 0){
                     tempEmail = newEmail.getText().toString();
                 }
-                if(newPhone.getText().toString().trim().length() > 0)
-                {
+                else if (newEmail.getText().toString().length() > 0) {
+                    fieldsNotUpdated.append(" email must be in the form \"username@website.top-level-domain\"\n");
+                }
+                if(AddNewEmployee.isValidPhoneNum(newPhone.getText().toString())) {//newPhone.getText().toString().trim().length() > 0)
                     tempPhone = newPhone.getText().toString();
+                }
+                else if (newPhone.getText().toString().length() > 0) {
+                    fieldsNotUpdated.append(" phone number must contain at least 10 numbers with no other symbols.\n");
+                }
+                if (fieldsNotUpdated.toString().length() > 0) {
+                    AlertDialog alertDialog = new AlertDialog.Builder(EditActivity.this).create();
+                    alertDialog.setTitle("Error updating Employee");
+                    alertDialog.setMessage("Employee's information was not updated:\n\n" + fieldsNotUpdated.toString());
+                    alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                }
+                            });
+                    alertDialog.show();
+                    return;
                 }
                 Employee e = new Employee();
                 e.setName(fname + " " + lname);

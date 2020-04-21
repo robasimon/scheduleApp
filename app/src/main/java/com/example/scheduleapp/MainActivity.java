@@ -28,7 +28,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
@@ -42,6 +44,8 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 
 public class MainActivity extends AppCompatActivity implements
@@ -49,6 +53,8 @@ public class MainActivity extends AppCompatActivity implements
 
     private static final int RC_SIGN_IN = 99;
 
+    // Store all associated employee ids for user locally for synchronous lookup
+    public static Set<String> ids = null;
     private MainActivityViewModel mViewModel;
     TextView titlepage, subtitlepage, endpage;
     Button btnAddNew;
@@ -254,13 +260,36 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     protected void onStart() {
         super.onStart();
+        ids = new HashSet<String>();
         // Start sign in if necessary
         if (shouldStartSignIn()) {
             startSignIn();
+            FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
+
+            firebaseFirestore.collection("users").document(FirebaseAuth.getInstance().getCurrentUser().getEmail())
+                    .collection("employees").get()
+                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            // Populate local ArrayList with all ids in database
+                            for (DocumentSnapshot querySnapshot : task.getResult())
+                                    ids.add(querySnapshot.getString("id"));
+                        }
+                    });
             return;
         }
+        FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
 
-
+        firebaseFirestore.collection("users").document(FirebaseAuth.getInstance().getCurrentUser().getEmail())
+                .collection("employees").get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        // Populate local ArrayList with all ids in database
+                        for (DocumentSnapshot querySnapshot : task.getResult())
+                            ids.add(querySnapshot.getString("id"));
+                    }
+                });
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
