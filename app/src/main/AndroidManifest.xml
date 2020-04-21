@@ -23,6 +23,7 @@
         <activity android:name=".NewTaskAct"/>
         <activity android:name=".ViewEmployees"/>
         <activity android:name=".EditActivity"/>
+        <activity android:name=".ShiftEdit"/>
 
     </application>
 

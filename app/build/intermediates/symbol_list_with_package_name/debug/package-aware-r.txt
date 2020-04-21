@@ -1713,6 +1713,7 @@ id calendar_grid
 id calendar_view
 id cancel_action
 id cancel_button
+id cancel_shift
 id canceledit
 id catv_day
 id catv_end
@@ -1747,12 +1748,15 @@ id cut
 id dark
 id date
 id dateSelect
+id date_edit
 id date_icon
 id date_picker_actions
+id dateforedit
 id day_view_adapter_class
 id decor_content_parent
 id default_activity_button
 id delete_button
+id delete_shift
 id design_bottom_sheet
 id design_menu_item_action_area
 id design_menu_item_action_area_stub
@@ -1782,6 +1786,7 @@ id email_top_layout
 id email_tos_and_pp_text
 id employeeName
 id employee_display
+id employee_edit
 id employee_email
 id employee_fname
 id employee_id
@@ -1791,6 +1796,7 @@ id employee_recycler
 id employee_textView
 id end
 id endTime
+id end_edit
 id end_padder
 id endpage
 id enterAlways
@@ -1965,6 +1971,8 @@ id select_dialog_listview
 id selected
 id send_code
 id send_sms_tos
+id shiftName
+id shiftRange
 id shortcut
 id showCustom
 id showHome
@@ -1989,6 +1997,7 @@ id src_over
 id standard
 id start
 id startTime
+id start_edit
 id status_bar_latest_event_content
 id stretch
 id submenuarrow
@@ -2058,6 +2067,7 @@ id uniform
 id unlabeled
 id up
 id update_employee
+id update_shift
 id useLogo
 id vertical
 id view_left_line
@@ -2197,6 +2207,7 @@ layout item_does
 layout item_employee
 layout item_multiple_selection_bar_content
 layout item_multiple_selection_bar_title
+layout item_shift
 layout month
 layout mtrl_alert_dialog
 layout mtrl_alert_dialog_actions

@@ -3,6 +3,7 @@ package com.example.scheduleapp;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +23,7 @@ public class ShiftAdapter extends RecyclerView.Adapter<ShiftAdapter.MyViewHolder
 
     Context context;
     ArrayList<HomeCollection> myDoes;
+    String name, s, e, date;
 
     public ShiftAdapter(Context c, ArrayList<HomeCollection> p) {
         context = c;
@@ -66,12 +68,24 @@ public class ShiftAdapter extends RecyclerView.Adapter<ShiftAdapter.MyViewHolder
         myViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent aa = new Intent(context, NewTaskAct.class);
+                Intent intent = new Intent(context, ShiftEdit.class);
+                Bundle extras = new Bundle();
+                name=myDoes.get(i).getName();
+                date = myDoes.get(i).getDate();
+                s = myDoes.get(i).getStartTime();
+                e = myDoes.get(i).getEndTime();
+                extras.putString("name", name);
+                extras.putString("date", date);
+                extras.putString("start", s);
+                extras.putString("end", e);
+                intent.putExtras(extras);
+                context.startActivity(intent);
+                /*Intent aa = new Intent(context, NewTaskAct.class);
                 aa.putExtra("name", getemployeeName);
                 //aa.putExtra("time", getdateSelect);
                 //aa.putExtra("hours", getstartTime);
                 //aa.putExtra("keydoes", getKeyDoes);
-                context.startActivity(aa);
+                context.startActivity(aa);*/
             }
         });
     }
